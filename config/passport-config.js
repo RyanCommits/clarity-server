@@ -32,7 +32,7 @@ passport.deserializeUser((idFromSession, done) => {
 passport.use( 
     new LocalStrategy(
         {
-            emailField: 'loginEmail',
+            usernameField: 'loginEmail',
             passwordField: 'loginPassword'
         },
 

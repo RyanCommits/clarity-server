@@ -11,9 +11,9 @@ router.post('/process-signup', (req, res, next) => {
     //     res.status(400).json({ errorMessage: 'We need both username and password'});
     //     return;
     // }
-
+    console.log(req.body)
     UserModel.findOne(
-        { email: req.body.email },
+        { email: req.body.signupEmail },
         (err, userFromDb) => {
             if (err) {
                 // if an error happened when finding email
@@ -60,6 +60,48 @@ router.post('/process-signup', (req, res, next) => {
         }
 
     )
+});
+
+router.post('/process-login', (req, res, next) => {
+    const customAuthCallback = 
+        passport.authenticate('local', (err, theUser, extraInfo) => {
+            if (err) {
+                res.status(500).json({ errorMessage: 'Login failed.' });
+                return;
+            }
+
+            if (!theUser) {
+                res.status(401).json({ errorMessage: extraInfo.message });
+                return;
+            }
+
+            req.login(theUser, (err) => {
+                if (err) {
+                    res.status(500).json({ errorMessage: 'Login failed.'});
+                }
+
+                theUser.encryptedPassword = undefined;
+                res.status(200).json(theUser);
+            })
+        }); 
+    
+    customAuthCallback(req, res, next);
+});
+
+router.get('/checklogin', (req, res, next) => {
+    let amILoggedIn = false;
+
+    if (req.user) {
+        req.user.encryptedPassword = undefined;
+        amILoggedIn = true;
+    }
+
+    res.status(200).json(
+        {
+            isLoggedIn: Boolean(req.user),
+            userInfo: req.user
+        }
+    );
 });
 
 module.exports = router;
