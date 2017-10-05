@@ -11,7 +11,6 @@ router.post('/process-signup', (req, res, next) => {
     //     res.status(400).json({ errorMessage: 'We need both username and password'});
     //     return;
     // }
-    console.log(req.body)
     UserModel.findOne(
         { email: req.body.signupEmail },
         (err, userFromDb) => {
@@ -23,7 +22,7 @@ router.post('/process-signup', (req, res, next) => {
 
             if (userFromDb) {
                 // if email is taken
-                res.status(400).json({ errorMessage: 'Email is taken.'});
+                res.status(400).json({ errorMessage: 'Email is taken.' });
                 return;
             }
 
@@ -37,7 +36,6 @@ router.post('/process-signup', (req, res, next) => {
                 encryptedPassword: hashPass
             });
 
-            console.log('this happened');
             theUser.save((err) => {
                 if (err) {
                     res.status(500).json({ errorMessage: 'Error saving user.' });
@@ -86,6 +84,11 @@ router.post('/process-login', (req, res, next) => {
         }); 
     
     customAuthCallback(req, res, next);
+});
+
+router.delete('/logout', (req, res, next) => {
+    req.logout();
+    res.status(200).json({ successMessage: 'Log out success!'});
 });
 
 router.get('/checklogin', (req, res, next) => {
