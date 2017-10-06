@@ -16,10 +16,10 @@ router.get('/dashboard', (req, res, next) => {
     }
 
     EntryModel.find(
-        // { user: req.user._id }
+       {} // { user: req.user._id }
     )
-        .limit(7)
-        .sort({ _id: -1 })
+        // .limit(7)
+        .sort({ date: -1 })
         .exec((err, filteredEntries) => {
             if (err) {
                 console.log('Error finding entries', err);

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const entrySchema = new Schema( 
     {
         date: { 
-            type: Number,
+            type: String,
             required: true
         },
         image: { 

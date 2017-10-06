@@ -7,11 +7,11 @@ mongoose.connect('mongodb://localhost/server');
 const entryArray = [
     {
       freeText: 'Ryans freak',
-      date: 5
+      date: '2017-10-23'
     },
     {
         freeText: 'Dues leak',
-        date: 123
+        date: '2017-9-30'
     }
 ];
 
