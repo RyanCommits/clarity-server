@@ -56,6 +56,9 @@ app.use('/', index);
 const myAuthRoutes = require('./routes/auth-api-router');
 app.use('/api', myAuthRoutes);
 
+const myEntryRoutes = require('./routes/entry-api-router');
+app.use('/api', myEntryRoutes);
+
 // ROUTES END ======================================================================
 
 app.use((req, res, next) => {
