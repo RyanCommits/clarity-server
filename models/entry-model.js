@@ -11,12 +11,17 @@ const entrySchema = new Schema(
         image: { 
             type: String,
         },
-        freeText: {
-            type: String
-        },
+        grateful: [String],
+        willAccomplish: [String],
+        affirmation: String,
+        dump: String,
+        rating: Number,
+        achievements: [String],
+        learn: String,
+        improve: String,
         user: {
             type: Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
             // required: true
         }
     }
