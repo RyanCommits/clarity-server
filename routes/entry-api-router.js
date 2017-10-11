@@ -1,12 +1,12 @@
 const express = require('express');
-// const multer = require('multer');
+const multer = require('multer');
 const EntryModel = require('../models/entry-model');
 
 const router = express.Router();
 
-// const myUploader = multer({
-//     dest: __dirname + '/../public/uploads/'
-// });
+const myUploader = multer({
+    dest: __dirname + '/../public/uploads/'
+});
 
 // localhost:3000/api/dashboard
 router.get('/dashboard', (req, res, next) => {
@@ -57,7 +57,8 @@ router.get('/dashboard/edit/:year/:month/:date', (req, res, next) => {
 
 // make new entry
 router.post('/dashboard/new/:year/:month/:date', (req, res, next) => {
-    
+
+
     if (!req.user) {
         res.status(401).json({ errorMessage: 'Not logged in.' });
         return;
@@ -132,12 +133,42 @@ router.put('/dashboard/edit/:year/:month/:date', (req, res, next) => {
     (err) => {
         if (err) {
             console.log('Error updating entry', err);
-            res.status(500).json({ errorMessage: 'New entry went wrong' })
+            res.status(500).json({ errorMessage: 'Update entry went wrong' })
         }
 
         res.status(200).json(theEntry);
     });
    
+});
+
+router.put('/dashboard', 
+
+    myUploader.single('entryImage'),
+
+    (req, res, next) => {
+    
+    if (!req.user) {
+        res.status(401).json({ errorMessage: 'Not logged in.' });
+        return;
+    }
+
+    const theEntry = {
+        image: '/uploads/' + req.file.filename       
+    };
+
+    EntryModel.findOneAndUpdate({
+        _id: req.body.entryId
+    },
+    theEntry, 
+    (err) => {
+        if (err) {
+            console.log('Error adding image', err);
+            res.status(500).json({ errorMessage: 'New image went wrong' })
+            return;
+        }
+
+        res.status(200).json(theEntry);
+    });
 });
 
 module.exports = router;
