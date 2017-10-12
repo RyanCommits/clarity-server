@@ -66,7 +66,7 @@ router.post('/dashboard/new/:year/:month/:date', (req, res, next) => {
 
     const theEntry = new EntryModel({
         date: req.body.entryDate,
-        // image: req.body.image,
+        image: req.body.entryImage,
         grateful: req.body.entryGrateful,
         willAccomplish: req.body.entryWillAccomplish,
         affirmation: req.body.entryAffirmation,
@@ -108,7 +108,7 @@ router.put('/dashboard/edit/:year/:month/:date', (req, res, next) => {
 
     const theEntry = {
         date: req.body.entryDate,
-        // image: req.body.image,
+        image: req.body.entryImage,
         grateful: req.body.entryGrateful,
         willAccomplish: req.body.entryWillAccomplish,
         affirmation: req.body.entryAffirmation,
