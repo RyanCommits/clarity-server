@@ -1,12 +1,9 @@
 const express = require('express');
-const multer = require('multer');
 const EntryModel = require('../models/entry-model');
 
-const router = express.Router();
+const m = require('../config/multer-config');
 
-const myUploader = multer({
-    dest: __dirname + '/../public/uploads/'
-});
+const router = express.Router();
 
 // localhost:3000/api/dashboard
 router.get('/dashboard', (req, res, next) => {
@@ -143,7 +140,7 @@ router.put('/dashboard/edit/:year/:month/:date', (req, res, next) => {
 
 router.put('/dashboard', 
 
-    myUploader.single('entryImage'),
+    m.uploader.single('entryImage'),
 
     (req, res, next) => {
     
@@ -153,7 +150,7 @@ router.put('/dashboard',
     }
 
     const theEntry = {
-        image: '/uploads/' + req.file.filename       
+        image: m.getUrl(req)  
     };
 
     EntryModel.findOneAndUpdate({
